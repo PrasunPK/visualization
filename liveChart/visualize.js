@@ -26,14 +26,23 @@ var getLastRandomNumbers = function () {
     return randomNumbers;
 };
 
-var populateLineChart = function (svg, line, randomNumbers) {
+var populateLineChart = function (svg, randomNumbers, xScale, yScale) {
+    var line = d3.line()
+        .x(function (d, i) {
+            return xScale(i);
+        })
+        .y(function (d) {
+            return yScale(d);
+        });
+
     svg.append('path')
         .attr('d', line(randomNumbers))
         .attr('transform', translate(MARGIN, MARGIN))
         .classed('path', true);
 };
 
-var populateBarChart = function populateBarChart(svg, randomNumbers, yScale, xScale) {
+var populateBarChart = function populateBarChart(svg, randomNumbers, xScale, yScale) {
+    var width = 5;
     svg.selectAll('rect')
         .data(randomNumbers)
         .enter()
@@ -41,9 +50,9 @@ var populateBarChart = function populateBarChart(svg, randomNumbers, yScale, xSc
         .attr('height', function (d) {
             return INNER_HEIGHT - yScale(d);
         })
-        .attr('width', 1)
+        .attr('width', width)
         .attr('x', function (d, i) {
-            return xScale(i);
+            return xScale(i) - (width/2);
         })
         .attr('y', function (d) {
             return yScale(d);
@@ -63,17 +72,21 @@ var initializeChart = function (xAxis, yAxis, div) {
         .classed('xAxis', true);
 
     svg.append('g')
-        .attr('transform', translate(MARGIN, MARGIN))
+        .attr('transform', translate(MARGIN-5, MARGIN))
         .call(yAxis)
         .classed('yAxis', true);
     return svg;
+};
+
+var removeChartIfExists = function (svgForLine, svgForBar) {
+    svgForLine.selectAll('.path').remove();
+    svgForBar.selectAll('.rect').remove();
 };
 
 var loadChart = function () {
     var xScale = d3.scaleLinear()
         .domain([0, RANGE - 1])
         .range([0, INNER_WIDTH]);
-
 
     var yScale = d3.scaleLinear()
         .domain([100, 0])
@@ -82,25 +95,16 @@ var loadChart = function () {
     var xAxis = d3.axisBottom(xScale).ticks(10);
     var yAxis = d3.axisLeft(yScale).ticks(10);
 
-    var svg = initializeChart(xAxis, yAxis, '#line-chart');
-    var svg1 = initializeChart(xAxis, yAxis, '#bar-chart');
-
-    var line = d3.line()
-        .x(function (d, i) {
-            return xScale(i);
-        })
-        .y(function (d) {
-            return yScale(d);
-        });
+    var svgForLine = initializeChart(xAxis, yAxis, '#line-chart');
+    var svgForBar = initializeChart(xAxis, yAxis, '#bar-chart');
 
     setInterval(function () {
         var randomNumbers = getLastRandomNumbers();
-        svg.selectAll('.path').remove();
-        svg1.selectAll('.rect').remove();
 
-        populateLineChart(svg, line, randomNumbers);
+        removeChartIfExists(svgForLine, svgForBar);
 
-        populateBarChart(svg1, randomNumbers, yScale, xScale);
+        populateLineChart(svgForLine, randomNumbers, xScale, yScale);
+        populateBarChart(svgForBar, randomNumbers, xScale, yScale);
 
     }, 250);
 
