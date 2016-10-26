@@ -1,0 +1,23 @@
+.container {
+	width: 1400px;
+	height: 720px;
+}
+
+svg{
+	border: 1px solid blue;
+}
+
+path {
+    stroke: steelblue;
+    stroke-width: 1;
+    fill: none;
+}
+
+#line-chart{
+    float: left;
+}
+
+#bar-chart{
+    float: left;
+    margin-left: 20px;
+}
