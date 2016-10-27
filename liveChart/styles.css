@@ -13,6 +13,10 @@ path {
     fill: none;
 }
 
+.grid{
+    stroke: lightgrey;
+}
+
 #line-chart{
     float: left;
 }

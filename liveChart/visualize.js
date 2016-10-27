@@ -1,6 +1,3 @@
-var translate = function (x, y) {
-    return "translate(" + x + "," + y + ")";
-};
 var RANGE = 10;
 const UPPER_LIMIT = 100;
 const LOWER_LIMIT = 0;
@@ -24,6 +21,10 @@ var getLastRandomNumbers = function () {
     randomNumbers.push(_.random(0, 100));
     randomNumbers.shift(1);
     return randomNumbers;
+};
+
+var translate = function (x, y) {
+    return "translate(" + x + "," + y + ")";
 };
 
 var populateLineChart = function (svg, randomNumbers, xScale, yScale) {
@@ -52,13 +53,26 @@ var populateBarChart = function populateBarChart(svg, randomNumbers, xScale, ySc
         })
         .attr('width', width)
         .attr('x', function (d, i) {
-            return xScale(i) - (width/2);
+            return xScale(i);
         })
         .attr('y', function (d) {
             return yScale(d);
         })
         .attr('transform', translate(MARGIN, MARGIN))
         .classed('rect', true);
+
+    svg.selectAll('rect').exit().remove();
+};
+
+var updateBarChart = function (svg, randomNumbers, yScale) {
+    svg.selectAll('rect')
+        .data(randomNumbers)
+        .attr('height', function (d) {
+            return INNER_HEIGHT - yScale(d);
+        })
+        .attr('y', function (d) {
+            return yScale(d);
+        });
 };
 
 var initializeChart = function (xAxis, yAxis, div) {
@@ -71,16 +85,32 @@ var initializeChart = function (xAxis, yAxis, div) {
         .call(xAxis)
         .classed('xAxis', true);
 
+    svg.selectAll('.xAxis .tick')
+        .append('line')
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', 0)
+        .attr('y2', -INNER_HEIGHT)
+        .classed('grid', true);
+
     svg.append('g')
-        .attr('transform', translate(MARGIN-5, MARGIN))
+        .attr('transform', translate(MARGIN - 5, MARGIN))
         .call(yAxis)
         .classed('yAxis', true);
+
+    svg.selectAll('.yAxis .tick')
+        .append('line')
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', INNER_WIDTH)
+        .attr('y2', 0)
+        .classed('grid', true);
+
     return svg;
 };
 
-var removeChartIfExists = function (svgForLine, svgForBar) {
-    svgForLine.selectAll('.path').remove();
-    svgForBar.selectAll('.rect').remove();
+var removeChartIfExists = function (svg) {
+    svg.selectAll('.path').remove();
 };
 
 var loadChart = function () {
@@ -98,14 +128,15 @@ var loadChart = function () {
     var svgForLine = initializeChart(xAxis, yAxis, '#line-chart');
     var svgForBar = initializeChart(xAxis, yAxis, '#bar-chart');
 
+    populateBarChart(svgForBar, randomNumbers, xScale, yScale);
+
     setInterval(function () {
         var randomNumbers = getLastRandomNumbers();
 
-        removeChartIfExists(svgForLine, svgForBar);
+        removeChartIfExists(svgForLine);
 
         populateLineChart(svgForLine, randomNumbers, xScale, yScale);
-        populateBarChart(svgForBar, randomNumbers, xScale, yScale);
-
+        updateBarChart(svgForBar, randomNumbers, yScale);
     }, 250);
 
 };
