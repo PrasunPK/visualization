@@ -77,13 +77,11 @@ var initializeChart = function (xAxis, yAxis, div) {
 
     svg.append('g')
         .attr('transform', translate(MARGIN, HEIGHT - MARGIN))
-        .call(xAxis)
-        .classed('xAxis', true);
+        .call(xAxis);
 
     svg.append('g')
         .attr('transform', translate(MARGIN, MARGIN))
-        .call(yAxis)
-        .classed('yAxis', true);
+        .call(yAxis);
 
     return svg;
 };
