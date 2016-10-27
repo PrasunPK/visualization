@@ -7,7 +7,7 @@ svg {
     border: 1px solid blue;
 }
 
-path {
+.line {
     stroke: steelblue;
     stroke-width: 1;
     fill: none;
