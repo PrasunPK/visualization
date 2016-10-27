@@ -21,6 +21,25 @@ var translate = function (x, y) {
     return "translate(" + x + "," + y + ")";
 };
 
+function updateLineChart(xScale, yScale) {
+
+    var line = d3.line()
+        .x(function (d, i) {
+            return xScale(i);
+        })
+        .y(function (d) {
+            return yScale(d);
+        });
+
+    d3.select('#line-chart .line')
+        .attr('d', line(randomNumbers))
+        .attr('transform', null)
+        .transition()
+        .duration(230)
+        .ease(d3.easeLinear)
+        .attr('transform', translate(xScale(-1), 0));
+};
+
 var populateLineChart = function (g, xScale, yScale) {
     var line = d3.line()
         .x(function (d, i) {
@@ -99,10 +118,6 @@ var updateBarChart = function (g, randomNumbers, yScale) {
     updateDOM(g);
 };
 
-var removeLineChartIfExists = function (svg) {
-    svg.selectAll('.line').remove();
-};
-
 var loadChart = function () {
     var xScale = d3.scaleLinear()
         .domain([0, RANGE - 1])
@@ -118,21 +133,18 @@ var loadChart = function () {
     var svgForLine = initializeChart(xAxis, yAxis, '#line-chart');
     var svgForBar = initializeChart(xAxis, yAxis, '#bar-chart');
 
+    populateLineChart(svgForLine, xScale, yScale);
+
     populateBarChart(svgForBar, xScale, yScale);
-
     setInterval(function () {
+
         randomNumbers.push(_.random(0, 100));
-
-        removeLineChartIfExists(svgForLine);
-        populateLineChart(svgForLine, xScale, yScale);
-
+        updateLineChart(xScale, yScale);
         updateBarChart(svgForBar, randomNumbers, yScale);
 
         randomNumbers.shift();
 
     }, 250);
-
-
 };
 
 window.onload = loadChart;
