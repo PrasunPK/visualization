@@ -1,10 +1,10 @@
 .container {
-	width: 1400px;
-	height: 720px;
+    width: 1400px;
+    height: 720px;
 }
 
-svg{
-	border: 1px solid blue;
+svg {
+    border: 1px solid blue;
 }
 
 path {
@@ -13,15 +13,15 @@ path {
     fill: none;
 }
 
-.grid{
+.grid {
     stroke: lightgrey;
 }
 
-#line-chart{
+#line-chart {
     float: left;
 }
 
-#bar-chart{
+#bar-chart {
     float: left;
     margin-left: 20px;
 }
