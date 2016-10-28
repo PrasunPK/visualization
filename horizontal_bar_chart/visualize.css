@@ -1,0 +1,15 @@
+.chart-area {
+    border: 1px solid blue;
+    height: 700px;
+    width: 1400px;
+    padding: 5px;
+}
+
+.bar {
+    height: 20px;
+    background-color: steelblue;
+    margin-bottom: 2px;
+    color: white;
+    text-align: right;
+    padding-right: 1px;
+}
