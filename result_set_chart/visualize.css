@@ -1,0 +1,30 @@
+.bar {
+    margin-bottom: 2px;
+    height: 20px;
+    color: white;
+    text-align: center;
+}
+
+.sort-options {
+    margin-top: 20px;
+}
+
+.labels {
+    margin-top: 20px;
+}
+
+.label {
+    float: left;
+}
+
+.legend {
+    float: left;
+    width: auto;
+    margin-left: 10px;
+    padding: 3px 10px 3px 10px;
+    color: white;
+}
+
+.radial-corner {
+    border-radius: 10px;
+}
