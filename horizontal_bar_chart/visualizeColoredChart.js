@@ -1,21 +1,30 @@
-var _data = [20, 10, 30, 50, 20, 23, 67, 89, 78, 100];
+var _data = [{key: 0, value: 20}, {key: 1, value: 10}, {key: 2, value: 30}, {key: 3, value: 50}, {key: 4, value: 48}];
 
 var _colorScale = d3.scaleLinear()
     .domain([0, 100])
     .range([d3.rgb(155, 193, 235), d3.rgb(8, 0, 255)]);
-;
 
 var updateChart = function (chartArea) {
-    chartArea.selectAll('.bar')
-        .data(_data)
-        .style('width', function (d) {
-            return (d * 10 ) + 'px';
-        }).text(function (d) {
-        return d;
-    }).classed('bar', true)
-        .style('background-color', function (d) {
-            return _colorScale(d);
+    var bars = chartArea.selectAll('.bar')
+        .data(_data, function (d) {
+            return d.value;
         });
+
+    bars
+        .enter().append('div')
+        .style('width', function (d) {
+            return (d.value * 10) + 'px';
+        })
+        .text(function (d) {
+            return d.value;
+        })
+        .classed('bar', true)
+        .style('background-color', function (d) {
+            return _colorScale(d.value);
+        });
+
+    bars.exit().remove();
+
 };
 
 var loadChart = function () {
@@ -23,23 +32,13 @@ var loadChart = function () {
         .append('div')
         .classed('chart-area', true);
 
-    var bars = chartArea.selectAll('div')
-        .data(_data)
-        .enter().append('div');
+    updateChart(chartArea);
 
-    bars.style('width', function (d) {
-        return (d * 10) + 'px';
-    }).text(function (d) {
-        return d;
-    }).classed('bar', true)
-        .style('background-color', function (d) {
-            return _colorScale(d);
-        });
-
+    var key = 5;
     setInterval(function () {
-        _data.push(Math.floor(Math.random() * 100));
-        updateChart(chartArea);
+        _data.push({key : key++, value : Math.floor(Math.random() * 100)});
         _data.shift();
+        updateChart(chartArea);
     }, 1000);
 };
 
