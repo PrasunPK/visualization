@@ -68,14 +68,15 @@ window.onload = loadChart;
 var sortByName = function () {
     var bars = d3.selectAll('.bar');
     bars.sort(function (current, next) {
-        return current.name < next.name ? -1 : current.name > next.name ? 1 : 0;
+        return (current.name < next.name) ? -1 : (current.name > next.name) ? 1 : 0;
     });
 };
 
 var sortBySubject = function () {
     var bars = d3.selectAll('.bar');
     bars.sort(function (current, next) {
-        return current.subject < next.subject ? -1 : current.subject > next.subject ? 1 : 0;
+        return current.subject < next.subject ? -1 : current.subject > next.subject ? 1
+            : (current.score < next.score ? -1 : current.score > next.score ? 1 : 0);
     });
 };
 
