@@ -1,0 +1,6 @@
+.block {
+    float: left;
+    padding : 15px 30px 15px 30px;
+    border: 1px solid black;
+    margin-right: 5px;
+}
