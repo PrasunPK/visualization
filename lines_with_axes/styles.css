@@ -3,3 +3,9 @@
     stroke: steelblue;
     stroke-width: 2px;
 }
+
+.dot {
+    stroke: steelblue;
+    stroke-width: 1px;
+    fill: white;
+}

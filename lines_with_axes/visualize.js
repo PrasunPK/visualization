@@ -1,6 +1,6 @@
 var drawLine = function (line, lineOfPoints) {
     _svg.append('g')
-        .attr('transform', 'translate(' + _MARGIN + ',' + _MARGIN + ')')
+        .attr('transform', translate(_MARGIN, _MARGIN))
         .append('path')
         .attr('d', line(lineOfPoints))
         .classed('line', true);
@@ -9,6 +9,20 @@ var drawLine = function (line, lineOfPoints) {
 const _MARGIN = 30;
 var _svg;
 
+var translate = function (x, y) {
+    return 'translate(' + x + ',' + y + ')';
+};
+var drawDataPoints = function (lineOfPoints, line) {
+    _svg.append('g')
+        .attr('transform', translate(_MARGIN, _MARGIN))
+        .selectAll(".dot")
+        .data(lineOfPoints)
+        .enter().append("circle")
+        .attr("class", "dot")
+        .attr("cx", line.x())
+        .attr("cy", line.y())
+        .attr("r", 5);
+};
 
 var drawChart = function () {
     var lineOfPoints = [{x: 0, y: 5}, {x: 1, y: 9}, {x: 2, y: 7}, {x: 3, y: 5}, {x: 4, y: 3}, {x: 6, y: 4}, {
@@ -55,15 +69,18 @@ var drawChart = function () {
         .attr('width', WIDTH);
 
     _svg.append('g')
-        .attr('transform', 'translate(' + _MARGIN + ', ' + _MARGIN + ')')
+        .attr('transform', translate(_MARGIN, _MARGIN))
         .call(yAxis);
 
     _svg.append('g')
-        .attr('transform', 'translate(' + _MARGIN + ',' + (INNER_HEIGHT + 10) + ')')
+        .attr('transform', translate(_MARGIN, (INNER_HEIGHT + 10)))
         .call(xAxis);
 
     drawLine(line, lineOfPoints);
     drawLine(sineLine, new Array(10));
+
+    drawDataPoints(lineOfPoints, line);
+    drawDataPoints(new Array(10), sineLine);
 
 };
 
