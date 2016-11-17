@@ -1,15 +1,24 @@
+var drawLine = function (line, lineOfPoints) {
+    _svg.append('g')
+        .attr('transform', 'translate(' + _MARGIN + ',' + _MARGIN + ')')
+        .append('path')
+        .attr('d', line(lineOfPoints))
+        .classed('line', true);
+};
+
+const _MARGIN = 30;
+var _svg;
+
+
 var drawChart = function () {
-
-    const MARGIN = 30;
-    var HEIGHT = 700;
-    var WIDTH = 1000;
-    var INNER_HEIGHT = HEIGHT - MARGIN;
-    var INNER_WIDTH = WIDTH - MARGIN;
-
     var lineOfPoints = [{x: 0, y: 5}, {x: 1, y: 9}, {x: 2, y: 7}, {x: 3, y: 5}, {x: 4, y: 3}, {x: 6, y: 4}, {
         x: 7,
         y: 2
     }, {x: 8, y: 3}, {x: 9, y: 2}];
+
+    var HEIGHT = 700;
+    var WIDTH = 1000;
+    var INNER_HEIGHT = HEIGHT - _MARGIN;
 
     var xScale = d3.scaleLinear()
         .domain([0, 1])
@@ -33,37 +42,28 @@ var drawChart = function () {
         });
 
     var sineLine = d3.line()
-        .x(function (d,i) {
-            return xScale(i/10);
+        .x(function (d, i) {
+            return xScale(i / 10);
         })
-        .y(function (d,i) {
-            return yScale((Math.sin(i)/10) + 0.5);
+        .y(function (d, i) {
+            return yScale((Math.sin(i) / 10) + 0.5);
         });
 
-    var svg = container
+    _svg = container
         .append('svg')
         .attr('height', HEIGHT)
         .attr('width', WIDTH);
 
-    svg.append('g')
-        .attr('transform', 'translate(' + MARGIN + ', ' + MARGIN + ')')
+    _svg.append('g')
+        .attr('transform', 'translate(' + _MARGIN + ', ' + _MARGIN + ')')
         .call(yAxis);
 
-    svg.append('g')
-        .attr('transform', 'translate(' + MARGIN + ',' + (INNER_HEIGHT + 10) + ')')
+    _svg.append('g')
+        .attr('transform', 'translate(' + _MARGIN + ',' + (INNER_HEIGHT + 10) + ')')
         .call(xAxis);
 
-    svg.append('g')
-        .attr('transform', 'translate(' + MARGIN + ',' + MARGIN + ')')
-        .append('path')
-        .attr('d', line(lineOfPoints))
-        .classed('line', true);
-
-    svg.append('g')
-        .attr('transform', 'translate(' + MARGIN + ',' + MARGIN + ')')
-        .append('path')
-        .attr('d', sineLine(new Array(10)))
-        .classed('line', true);
+    drawLine(line, lineOfPoints);
+    drawLine(sineLine, new Array(10));
 
 };
 
