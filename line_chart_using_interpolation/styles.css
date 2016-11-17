@@ -1,0 +1,18 @@
+.line {
+    fill: none;
+    stroke-width: 2px;
+}
+
+.blue-line {
+    stroke: darkblue;
+}
+
+.red-line {
+    stroke: darkred
+}
+
+.dot {
+    stroke: steelblue;
+    stroke-width: 1px;
+    fill: white;
+}
