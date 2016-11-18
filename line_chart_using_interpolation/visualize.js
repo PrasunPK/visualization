@@ -9,7 +9,9 @@ var _curves = [
     {name: 'Step curve', method: 'curveStep'},
     {name: 'Curve basis', method: 'curveBasis'},
     {name: 'Curve bundle', method: 'curveBundle'},
-    {name: 'Curve Monotone X', method: 'curveMonotoneX'}
+    {name: 'Curve Monotone X', method: 'curveMonotoneX'},
+    {name: 'Curve Natural', method: 'curveNatural'},
+    {name: 'Curve Cardinal', method: 'curveCardinal'}
 ];
 
 var translate = function (x, y) {
