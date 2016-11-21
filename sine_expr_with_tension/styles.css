@@ -1,0 +1,11 @@
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1px;
+}
+
+.dot {
+    stroke: steelblue;
+    stroke-width: 1px;
+    fill: white;
+}
