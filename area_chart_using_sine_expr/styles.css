@@ -1,0 +1,15 @@
+.line {
+    stroke: steelblue;
+    stroke-width: 3px;
+}
+
+.area {
+    fill: aliceblue;
+    stroke-width: 0px;
+}
+
+.dot {
+    stroke: steelblue;
+    stroke-width: 1px;
+    fill: white;
+}
