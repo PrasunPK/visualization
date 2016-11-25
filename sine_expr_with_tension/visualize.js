@@ -101,8 +101,6 @@ var change = function () {
     d3.select('svg').selectAll('.line').remove();
     d3.select('svg').selectAll('.dot').remove();
 
-    console.log(_tensionScale(_tensions[selectedIndex]));
-
     drawLineGraph(_tensionScale(_tensions[selectedIndex]));
     drawScatterPlot();
 };
